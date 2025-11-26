@@ -1,0 +1,20 @@
+[profile.default]
+src = "contracts"
+out = "out"
+test = "test"
+libs = ["lib"]
+remappings = ["forge-std=lib/forge-std/src/"]
+solc_version = "0.8.24"
+optimizer = true
+optimizer_runs = 500
+via_ir = true
+bytecode_hash = "none"
+verbosity = 3
+
+[rpc_endpoints]
+base_sepolia = "https://sepolia.base.org"
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = true

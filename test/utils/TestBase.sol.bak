@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+interface Vm {
+    struct Log {
+        bytes32[] topics;
+        bytes data;
+        address emitter;
+    }
+
+    function addr(uint256 privateKey) external returns (address);
+    function sign(uint256 privateKey, bytes32 digest) external returns (uint8 v, bytes32 r, bytes32 s);
+    function startPrank(address) external;
+    function stopPrank() external;
+    function prank(address) external;
+    function recordLogs() external;
+    function getRecordedLogs() external returns (Log[] memory entries);
+    function txGasPrice(uint256) external;
+    function warp(uint256) external;
+    function expectRevert(bytes calldata) external;
+}
+
+/// @notice Minimal test base providing assertion helpers.
+abstract contract TestBase {
+    Vm internal constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
+
+    event TestEvent(string name);
+
+    function assertTrue(bool condition, string memory message) internal pure {
+        require(condition, message);
+    }
+
+    function assertFalse(bool condition, string memory message) internal pure {
+        require(!condition, message);
+    }
+
+    function assertEq(uint256 a, uint256 b, string memory message) internal pure {
+        require(a == b, message);
+    }
+
+    function assertEq(address a, address b, string memory message) internal pure {
+        require(a == b, message);
+    }
+
+    function assertEq(bool a, bool b, string memory message) internal pure {
+        require(a == b, message);
+    }
+
+    function assertEq(bytes32 a, bytes32 b, string memory message) internal pure {
+        require(a == b, message);
+    }
+
+    function assertEq(int256 a, int256 b, string memory message) internal pure {
+        require(a == b, message);
+    }
+
+    function callAndExpectSuccess(address target, bytes memory data, string memory message) internal returns (bytes memory) {
+        (bool success, bytes memory result) = target.call(data);
+        require(success, message);
+        return result;
+    }
+
+    function callAndExpectRevert(address target, bytes memory data, string memory message) internal returns (bytes memory) {
+        (bool success, bytes memory result) = target.call(data);
+        require(!success, message);
+        return result;
+    }
+}

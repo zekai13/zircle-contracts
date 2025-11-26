@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Environment & secrets (keep local)
+.env
+.env.*
+!.env.example
+.forge-pass
+gas_pool_wallet.json
+private_keys_reference.md
+
+# Build artifacts & caches
+out/
+cache/
+.foundry-cache/
+coverage/
+gas-snapshot-*.json
+
+# Deployment outputs generated locally
+deployments/*.env
+
+# Misc
+temp.c
